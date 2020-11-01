@@ -1,0 +1,16 @@
+{
+  "name": "blockjack",
+  "version": "1.0.0",
+  "description": "A blackjack game with blockchain and crypto",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ethereum",
+    "dapp",
+    "solidity"
+  ],
+  "author": "Arturo",
+  "license": "ISC"
+}
