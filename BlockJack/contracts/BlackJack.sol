@@ -3,21 +3,24 @@ pragma solidity ^0.7.0;
 
 contract BlackJack {
 
-  address player = address(0);
+  address public player = address(0);
   uint card = 0;
-  bool winner = false;
 
   uint[] cardDeckPlayer;
   uint[] cardDeckSC;
 
+  modifier onlyPlayer() {
+    require(msg.sender == player, "Solo el jugador puede llamar esta funcion");
+    _;
+  }
+    
   function reset() public {
     delete cardDeckPlayer;
     delete cardDeckSC;
-    winner = false;
     player = msg.sender;
   }
 
-  function generateCard() public returns(uint) {
+  function generateCard() internal returns(uint) {
     card = uint(keccak256(abi.encodePacked(block.timestamp, block.difficulty, msg.sender))) % 11;
 
     while(card == 0) {
@@ -27,11 +30,30 @@ contract BlackJack {
     return card;
   }
   
-   function getCardDeckPlayer() external view returns(uint[] memory) {
-        return cardDeckPlayer;
-    }
-    
-    function usersTurn() public {
-        cardDeckPlayer.push(generateCard());
-    }
+  function getCardDeckPlayer() external view returns(uint[] memory) {
+    return cardDeckPlayer;
+  }
+ 
+  function getCardDeckSC() external view returns(uint[] memory) {
+    return cardDeckSC;  
+  }
+
+  function playerTurn() public onlyPlayer {
+    cardDeckPlayer.push(generateCard());
+  }
+
+  function scTurn() public {
+    cardDeckSC.push(generateCard());
+  }
+
+  function winner(uint16 _playerPoints, uint16 _scPoints) public payable {
+    require(msg.value > 50000, "Debes tener minimo 50001 weis");
+        if(_playerPoints > _scPoints && _playerPoints <= 21) {
+            msg.sender.transfer(50000);
+        }
+        
+        else {
+            address(this).call{ value: 50000 wei }("");
+        }
+  }
 }
