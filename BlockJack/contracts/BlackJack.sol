@@ -3,7 +3,7 @@ pragma solidity ^0.7.2;
 
 contract BlackJack {
 
-  address public player = address(0);
+  address public player;
   uint card = 0;
 
   uint[] cardDeckPlayer;
