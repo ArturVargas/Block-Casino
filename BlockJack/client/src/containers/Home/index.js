@@ -6,7 +6,7 @@ import './styles.scss';
 const Home = () => (
   <div className='home-page'>
     <div className='header'>
-      Hola <span> account </span> bienvenido a Crypto-Casino.
+      Crypto-Casino.
     </div>
     <div className='games'>
       <div>
